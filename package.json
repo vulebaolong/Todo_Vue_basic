@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "ant-design-vue": "^4.0.1",
+    "nanoid": "^4.0.2",
+    "oh-vue-icons": "^1.0.0-rc3",
     "vue": "^3.3.4"
   },
   "devDependencies": {
