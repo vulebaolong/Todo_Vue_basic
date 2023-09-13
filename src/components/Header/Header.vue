@@ -22,6 +22,7 @@ const toggleTheme = () => {
 
     emit("todo-toggleTheme", htmlElement?.classList.value);
 };
+
 </script>
 
 <template>

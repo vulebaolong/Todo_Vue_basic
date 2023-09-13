@@ -1,25 +1,32 @@
 <script setup>
+import axios from "axios";
 import { reactive, ref } from "vue";
-import { nanoid } from "nanoid";
+import { error, success } from "../../helpers/messageHelper";
+import { useStore } from "vuex";
+
+const store = useStore();
 const emit = defineEmits(["todo-add"]);
 const formRef = ref();
 const formState = reactive({
-    name: "",
+    title: "",
 });
 const resetForm = () => {
     formRef.value.resetFields();
 };
-const onFinish = (values) => {
-    console.log("Success:", values);
-    values.name = values.name.trim();
-    if (values.name === "") return;
-    const result = {
-        id: nanoid(),
-        name: values.name,
-        completed: false,
-    };
-    emit("todo-add", result);
-    resetForm();
+const onFinish = async (values) => {
+    try {
+        console.log(values);
+
+        await axios.post("http://localhost:3001/todo", values);
+
+        success("Thêm todo thành công");
+
+        resetForm();
+
+        store.dispatch("todo/getTodo");
+    } catch (err) {
+        error("Thêm todo không thành công");
+    }
 };
 const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -29,8 +36,8 @@ const onFinishFailed = (errorInfo) => {
 <template>
     <a-form ref="formRef" :model="formState" name="basic" autocomplete="off" @finish="onFinish" @finishFailed="onFinishFailed">
         <div class="flex gap-5">
-            <a-form-item class="w-full" name="name" :rules="[{ required: true, message: 'Please input your todo!' }]">
-                <a-input v-model:value="formState.name" />
+            <a-form-item class="w-full" name="title" :rules="[{ required: true, message: 'Please input your todo!' }]">
+                <a-input v-model:value="formState.title" />
             </a-form-item>
 
             <a-form-item>

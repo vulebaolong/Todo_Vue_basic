@@ -1,15 +1,39 @@
 <script setup>
-import { reactive } from "vue";
-import axios from 'axios'
+import { computed, reactive } from "vue";
+import axios from "axios";
+import { success, error } from "../../helpers/messageHelper";
+import { router } from "../../router/router";
+import { lcStorage } from "../../helpers/lcStorage";
+import { TOKEN, USER_LOGIN } from "../../contants/configContants";
+import { useStore } from "vuex";
+const store = useStore();
+
 const formState = reactive({
-    username: "",
-    password: "",
-    remember: true,
+    email: computed(() => store.state.user.autoFill.email),
+    password: computed(() => store.state.user.autoFill.password),
 });
+
 const onFinish = async (values) => {
-    console.log("Success:", values);
-    const result = await axios.post('http://localhost:3001/auth/login', values)
-    console.log(result);
+    try {
+        console.log("Success:", values);
+
+        const { data, status } = await axios.post("http://localhost:3001/auth/login", values);
+
+        console.log({ data, status });
+
+        success("Đăng nhập thành công");
+
+        lcStorage.set(USER_LOGIN, data);
+
+        lcStorage.set(TOKEN, data.token);
+
+        store.commit("user/setUserLogin", data);
+
+        router.push("/todo");
+    } catch (err) {
+        console.log(err);
+        error("Đăng nhập thành công");
+    }
 };
 const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -30,8 +54,8 @@ const onFinishFailed = (errorInfo) => {
                     <a-input-password v-model:value="formState.password" />
                 </a-form-item>
 
-                <a-form-item :wrapper-col="{ offset: 8, span: 16 }">
-                    <a-button type="primary" html-type="submit">Submit</a-button>
+                <a-form-item>
+                    <a-button type="primary" html-type="submit">Đăng nhập</a-button>
                 </a-form-item>
             </a-form>
         </div>

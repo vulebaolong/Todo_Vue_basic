@@ -1,5 +1,5 @@
 <script setup>
-import TodoItem from "./TodoItem.vue";
+import TodoItem from "../pages/TodoPage/TodoItem.vue";
 
 defineProps({
     data: Array,
