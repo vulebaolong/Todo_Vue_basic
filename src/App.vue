@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from "vue";
 
-import Header from "./components/Header.vue";
+import Header from "./components/Header/Header.vue";
 import Todo from "./components/Todo.vue";
 import TodoForm from "./components/TodoForm.vue";
 import { theme } from "ant-design-vue";
@@ -70,10 +70,11 @@ const handleToggleTheme = (flag) => {
             algorithm: themeSelect,
         }"
     >
-        <div class="container space-y-10 py-24">
+        <div class="py-24 space-y-10">
             <Header @todo-toggleTheme="handleToggleTheme" />
-            <TodoForm @todo-add="handleAdd" />
-            <Todo :data="data" @todo-delete="handleDelete" @todo-check="handleCheck" />
+            <router-view></router-view>
+            <!-- <TodoForm @todo-add="handleAdd" /> -->
+            <!-- <Todo :data="data" @todo-delete="handleDelete" @todo-check="handleCheck" /> -->
         </div>
     </a-config-provider>
 </template>
