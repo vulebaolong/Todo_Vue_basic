@@ -12,7 +12,7 @@ const mutations = {
 
 const actions = {
     // Hành động để gọi API và cập nhật dữ liệu
-    async getTodo({ commit }) {
+    async getTodo({ commit, state }, payload) {
         try {
             const { data } = await axios.get("http://localhost:3001/todo/user");
             commit("setTodo", data);

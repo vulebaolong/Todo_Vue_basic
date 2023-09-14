@@ -15,6 +15,10 @@ const mutations = {
     setAutoFill(state, payload) {
         state.autoFill = payload;
     },
+    resetUser(state) {
+        state.autoFill = {}
+        state.userLogin = {}
+    }
 };
 
 export default {

@@ -7,6 +7,7 @@ import { useStore } from "vuex";
 const store = useStore();
 const emit = defineEmits(["todo-add"]);
 const formRef = ref();
+const loadingBtn = ref(false)
 const formState = reactive({
     title: "",
 });
@@ -15,7 +16,11 @@ const resetForm = () => {
 };
 const onFinish = async (values) => {
     try {
-        console.log(values);
+        // console.log(values);
+
+        loadingBtn.value = true
+
+        values.title = values.title.trim()
 
         await axios.post("http://localhost:3001/todo", values);
 
@@ -23,9 +28,12 @@ const onFinish = async (values) => {
 
         resetForm();
 
-        store.dispatch("todo/getTodo");
+        store.dispatch("todo/getTodo", 123);
     } catch (err) {
+        console.log(err);
         error("Thêm todo không thành công");
+    } finally {
+        loadingBtn.value = false
     }
 };
 const onFinishFailed = (errorInfo) => {
@@ -41,7 +49,7 @@ const onFinishFailed = (errorInfo) => {
             </a-form-item>
 
             <a-form-item>
-                <a-button type="primary" html-type="submit">Add todo</a-button>
+                <a-button :loading="loadingBtn" type="primary" html-type="submit">Add todo</a-button>
             </a-form-item>
         </div>
     </a-form>

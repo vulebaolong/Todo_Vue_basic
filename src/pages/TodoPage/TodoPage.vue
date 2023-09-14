@@ -4,7 +4,7 @@ import TodoForm from "./TodoForm.vue";
 </script>
 
 <template>
-    <div class="container">
+    <div class="container pt-20">
         <TodoForm />
         <TodoList />
     </div>

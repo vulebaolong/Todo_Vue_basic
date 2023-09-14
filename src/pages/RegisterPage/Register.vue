@@ -37,7 +37,7 @@ const onFinishFailed = (errorInfo) => {
 </script>
 
 <template>
-    <div class="container">
+    <div class="container pt-20">
         <div class="max-w-xl mx-auto">
             <h1 class="text-5xl font-black">Đăng ký</h1>
 

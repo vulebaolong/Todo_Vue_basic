@@ -8,14 +8,16 @@ import { TOKEN, USER_LOGIN } from "../../contants/configContants";
 
 const store = useStore(); // Lấy store từ Vuex
 
-const name = computed(() => store.state.user.userLogin.name);
+const userLogin = computed(() => store.state.user.userLogin);
 
 const handleLogin = () => {
     router.push("/login");
 };
+
 const handleRegister = () => {
     router.push("/register");
 };
+
 const handleLogout = () => {
     // Xoá localStorage
     lcStorage.remove(USER_LOGIN);
@@ -24,18 +26,22 @@ const handleLogout = () => {
     // Chuyển hướng về trang '/'
     router.push("/");
 
-    // Làm mới trang
-    location.reload();
+    store.commit("user/resetUser");
+
+    // setTimeout(() => {
+    //     // Làm mới trang
+    //     location.reload();
+    // }, 1);
 };
 </script>
 
 <template>
-    <div class="space-x-2" v-if="!name">
+    <div class="space-x-2" v-if="!userLogin.name">
         <Button @click="handleLogin" type="primary">Đăng nhập</Button>
         <Button @click="handleRegister" type="primary">Đăng ký</Button>
     </div>
-    <div v-if="name">
-        <p class="m-0">{{ name }}</p>
+    <div v-if="userLogin.name" class="flex items-center gap-2">
+        <p class="m-0">{{ userLogin.name }}</p>
         <Button @click="handleLogout" type="primary">Đăng xuất</Button>
     </div>
 </template>

@@ -1,28 +1,12 @@
 <script setup>
-import { lcStorage } from "../../helpers/lcStorage";
-import { THEME } from "../../contants/configContants";
+import { useStore } from "vuex";
 import ControllUser from "./ControllUser.vue";
 
-const emit = defineEmits(["todo-toggleTheme"]);
+const store = useStore();
+
 const toggleTheme = () => {
-    const htmlElement = document.querySelector("html");
-    htmlElement?.classList.toggle("dark");
-
-    const btnLightEl = document.querySelector(".btnLight");
-    btnLightEl?.classList.toggle("hidden");
-
-    const btnNightEl = document.querySelector(".btnNight");
-    btnNightEl?.classList.toggle("hidden");
-
-    if (htmlElement?.classList.value === "dark") {
-        lcStorage.set(THEME, "dark");
-    } else {
-        lcStorage.set(THEME, "light");
-    }
-
-    emit("todo-toggleTheme", htmlElement?.classList.value);
+    store.commit("theme/toggleTheme");
 };
-
 </script>
 
 <template>
@@ -41,7 +25,7 @@ const toggleTheme = () => {
 
             <!-- CONTROL USER -->
             <div>
-                <ControllUser/>
+                <ControllUser />
             </div>
         </div>
     </div>

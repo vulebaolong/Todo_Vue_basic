@@ -14,7 +14,7 @@ onMounted(async () => {
 
 <template>
     <div class="h-[500px] overflow-y-auto divide-y divide-slate-400 dark:divide-slate-700 rounded-lg border border-slate-400 dark:border-slate-700">
-        <TodoItem v-for="todo in data" :key="todo.id" :todo="todo" />
+        <TodoItem v-for="todo in data" :key="todo._id" :todo="todo" />
     </div>
 </template>
 
